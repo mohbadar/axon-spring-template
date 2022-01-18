@@ -17,13 +17,7 @@ import java.util.List;
 @Getter
 @Entity(name = "Permission")
 @Table(name = "permission")
-public class Permission {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "permission_generator")
-    @SequenceGenerator(name = "permission_generator", sequenceName = "permission_seq", allocationSize = 1)
-    @Column(unique = true, updatable = false, nullable = false)
-    private Long id;
+public class Permission extends BaseEntity {
 
     private String name;
 
@@ -41,7 +35,8 @@ public class Permission {
     public Permission(String name) {
         this.name = name;
     }
-    public Permission(long id, String name)
+
+    public Permission(String id, String name)
     {
         this.id = id;
         this.name= name;

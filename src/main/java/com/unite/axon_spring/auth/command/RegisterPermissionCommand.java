@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterPermissionCommand {
+    private String permissionId;
     private String name;
     private String description;
     private boolean active;

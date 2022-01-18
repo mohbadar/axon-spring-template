@@ -38,6 +38,7 @@ public class Library {
         Assert.notNull( registerLibraryCommand.getLibraryId(), "ID is required");
         Assert.notNull(registerLibraryCommand.getName(), "Name should not be null");
 
+//        System.out.println("LibraryCommand: "+ registerLibraryCommand.getName());
         AggregateLifecycle.apply(new LibraryCreatedEvent(registerLibraryCommand.getLibraryId(), registerLibraryCommand.getName()));
     }
 

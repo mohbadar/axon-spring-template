@@ -1,16 +1,24 @@
 package com.unite.axon_spring.auth.controller;
 
+import com.unite.axon_spring.auth.aggregate.PermissionAggregator;
 import com.unite.axon_spring.auth.command.RegisterPermissionCommand;
+import com.unite.axon_spring.auth.command.UpdatePermissionCommand;
 import com.unite.axon_spring.auth.dto.PermissionDTO;
 import com.unite.axon_spring.auth.model.Permission;
+import com.unite.axon_spring.auth.query.GetPermissionByIdQuery;
+import com.unite.axon_spring.auth.query.GetPermissionsQuery;
+import com.unite.axon_spring.library.aggregate.Library;
+import com.unite.axon_spring.library.query.GetLibraryQuery;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping(path = "/api/permissions")
@@ -25,11 +33,40 @@ public class PermissionApiController {
         this.queryGateway = queryGateway;
     }
 
-    @PostMapping(path = "")
+    @PostMapping(path = "/register")
     public HttpStatus addPermission(@RequestBody PermissionDTO dto)
     {
-        System.out.println("Permissions: "+ dto.getName());
-        commandGateway.send(new RegisterPermissionCommand(dto.getName(), dto.getDescription(), dto.isActive()));
+//        System.out.println("Permissions: "+ dto.getName());
+        dto.setPermissionId(UUID.randomUUID().toString());
+        commandGateway.send(new RegisterPermissionCommand(dto.getPermissionId(),dto.getName(), dto.getDescription(), dto.isActive()));
         return HttpStatus.OK;
     }
+
+    @GetMapping()
+    public List<PermissionDTO> getPermissions() throws Exception
+    {
+        return queryGateway.query(new GetPermissionsQuery(), ResponseTypes.multipleInstancesOf(PermissionDTO.class)).get();
+    }
+
+
+    @GetMapping("/{permissionId}")
+    public PermissionDTO getPermission(@PathVariable(required = true) String permissionId) throws Exception
+    {
+        CompletableFuture<PermissionDTO> future = queryGateway.query(new GetPermissionByIdQuery(permissionId), PermissionDTO.class);
+        return future.get();
+    }
+
+    @PutMapping("/{permissionId}")
+    public HttpStatus updatePermission(@RequestBody PermissionDTO permissionDTO) throws Exception
+    {
+        commandGateway.send(new UpdatePermissionCommand(permissionDTO.getPermissionId(), permissionDTO.getName(), permissionDTO.getDescription(), permissionDTO.isActive()));
+        return HttpStatus.OK;
+    }
+
+//
+//    @GetMapping()
+//    public String test()
+//    {
+//        return "TEST";
+//    }
 }

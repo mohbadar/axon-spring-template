@@ -1,11 +1,9 @@
-package com.unite.axon_spring.auth.event;
+package com.unite.axon_spring.auth.command;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-public class PermissionCreatedEvent {
+public class UpdatePermissionCommand {
     private final String permissionId;
     private final String name;
     private final String description;
