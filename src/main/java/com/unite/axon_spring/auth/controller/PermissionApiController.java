@@ -1,6 +1,7 @@
 package com.unite.axon_spring.auth.controller;
 
 import com.unite.axon_spring.auth.aggregate.PermissionAggregator;
+import com.unite.axon_spring.auth.command.DeletePermissionCommand;
 import com.unite.axon_spring.auth.command.RegisterPermissionCommand;
 import com.unite.axon_spring.auth.command.UpdatePermissionCommand;
 import com.unite.axon_spring.auth.dto.PermissionDTO;
@@ -56,17 +57,21 @@ public class PermissionApiController {
         return future.get();
     }
 
-    @PutMapping("/{permissionId}")
-    public HttpStatus updatePermission(@RequestBody PermissionDTO permissionDTO) throws Exception
+
+    @DeleteMapping("/{permissionId}")
+    public HttpStatus deletePermission(@PathVariable(required = true) String permissionId) throws Exception
     {
+        commandGateway.send(new DeletePermissionCommand(permissionId));
+        return HttpStatus.OK;
+    }
+
+    @PutMapping("/{permissionId}/update")
+    public HttpStatus updatePermission(@PathVariable(required = true) String permissionId,@RequestBody PermissionDTO permissionDTO) throws Exception
+    {
+        permissionDTO.setPermissionId(permissionId);
         commandGateway.send(new UpdatePermissionCommand(permissionDTO.getPermissionId(), permissionDTO.getName(), permissionDTO.getDescription(), permissionDTO.isActive()));
         return HttpStatus.OK;
     }
 
-//
-//    @GetMapping()
-//    public String test()
-//    {
-//        return "TEST";
-//    }
+
 }

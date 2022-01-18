@@ -1,11 +1,9 @@
-package com.unite.axon_spring.auth.command;
+package com.unite.axon_spring.auth.event;
 
 import lombok.Data;
-import lombok.ToString;
 
 @Data
-@ToString
-public class UpdatePermissionCommand {
+public class PermissionUpdatedEvent {
     private final String permissionId;
     private final String name;
     private final String description;

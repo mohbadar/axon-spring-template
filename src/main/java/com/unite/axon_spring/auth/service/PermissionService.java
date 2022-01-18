@@ -2,6 +2,7 @@ package com.unite.axon_spring.auth.service;
 
 import com.unite.axon_spring.auth.dto.PermissionDTO;
 import com.unite.axon_spring.auth.event.PermissionCreatedEvent;
+import com.unite.axon_spring.auth.event.PermissionDeletedEvent;
 import com.unite.axon_spring.auth.model.Permission;
 import com.unite.axon_spring.auth.query.GetPermissionByIdQuery;
 import com.unite.axon_spring.auth.query.GetPermissionsQuery;
@@ -36,6 +37,23 @@ public class PermissionService {
         permission.setDescription(event.getDescription());
         permission.setActive(event.isActive());
         permissionRepository.save(permission);
+    }
+
+    @EventHandler
+    public void updatePermission(PermissionCreatedEvent event)
+    {
+        Permission permission = new Permission();
+        permission.setId(event.getPermissionId());
+        permission.setName(event.getName());
+        permission.setDescription(event.getDescription());
+        permission.setActive(event.isActive());
+        permissionRepository.save(permission);
+    }
+
+    @EventHandler
+    public void deletePermission(PermissionDeletedEvent event)
+    {
+        permissionRepository.deleteById(event.getPermissionId());
     }
 
     @QueryHandler
