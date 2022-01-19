@@ -1,4 +1,4 @@
-package com.unite.axon_spring.auth.query;
+package com.unite.axon_spring.iam.query;
 
 import lombok.Data;
 
