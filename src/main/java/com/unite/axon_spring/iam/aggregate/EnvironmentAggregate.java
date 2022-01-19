@@ -7,6 +7,7 @@ import com.unite.axon_spring.iam.event.EnvironmentCreatedEvent;
 import com.unite.axon_spring.iam.event.EnvironmentDeactivatedEvent;
 import com.unite.axon_spring.iam.event.EnvironmentUpdatedEvent;
 import com.unite.axon_spring.iam.model.Environment;
+import lombok.NoArgsConstructor;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
@@ -14,6 +15,7 @@ import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 import org.axonframework.spring.stereotype.Aggregate;
 
 @Aggregate
+@NoArgsConstructor
 public class EnvironmentAggregate {
     @AggregateIdentifier
     private String id;
@@ -23,7 +25,6 @@ public class EnvironmentAggregate {
     private String secretKey;
     private boolean active;
 
-    public EnvironmentAggregate(){}
 
     @CommandHandler
     public EnvironmentAggregate(CreateEnvironmentCommand cmd){
