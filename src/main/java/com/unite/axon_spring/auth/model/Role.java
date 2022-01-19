@@ -9,6 +9,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Collection;
 
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -18,9 +19,7 @@ import java.util.Collection;
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_generator")
-    @SequenceGenerator(name="role_generator", sequenceName = "role_seq", allocationSize = 1)
-    @Column(unique = true, updatable = false, nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column
@@ -32,8 +31,6 @@ public class Role {
     @Column(name = "active", length = 1, nullable = false)
     private boolean active;
 
-    @Column(name = "env_slug")
-    private String envSlug;
 
     @ManyToMany(mappedBy = "roles")
     @JsonIgnore
@@ -61,6 +58,6 @@ public class Role {
 
     @Override
     public String toString() {
-        return "Form [id=" + id + ", name=" + name + ", description=" + description + ", active=" + active + ", envSlug=" + envSlug + "]";
+        return "Form [id=" + id + ", name=" + name + ", description=" + description + ", active=" + active +"]";
     }
 }

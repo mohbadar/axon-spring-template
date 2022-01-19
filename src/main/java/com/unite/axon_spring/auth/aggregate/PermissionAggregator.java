@@ -20,11 +20,16 @@ import java.util.UUID;
 @Aggregate
 public class PermissionAggregator {
 
-    @AggregateIdentifier
     private String permissionId;
     private String name;
     private String description;
     private boolean active;
+
+    @AggregateIdentifier
+    private String getAggregateIdentifier() {
+        return (null != permissionId) ? permissionId +"": name;
+    }
+
 
     protected PermissionAggregator(){
         //for Axon Instantiation
@@ -40,7 +45,7 @@ public class PermissionAggregator {
     }
 
     @CommandHandler
-    public PermissionAggregator(UpdatePermissionCommand cmd)
+    public void on(UpdatePermissionCommand cmd)
     {
         System.out.println(cmd.toString());
         Assert.notNull(cmd.getName(), "Ït is required");
@@ -51,7 +56,7 @@ public class PermissionAggregator {
     }
 
     @CommandHandler
-    public PermissionAggregator(DeletePermissionCommand cmd)
+    public void on(DeletePermissionCommand cmd)
     {
         Assert.notNull(cmd.getPermissionId(), "Ït is required");
         AggregateLifecycle.apply(new PermissionDeletedEvent(cmd.getPermissionId()));
@@ -69,18 +74,9 @@ public class PermissionAggregator {
     @EventSourcingHandler
     private void on(PermissionUpdatedEvent event)
     {
-        permissionId = event.getPermissionId();
         name=event.getName();
         description=event.getDescription();
         active=event.isActive();
     }
-
-    @EventSourcingHandler
-    private void on(PermissionDeletedEvent event)
-    {
-        permissionId = event.getPermissionId();
-    }
-
-
-
+    
 }
