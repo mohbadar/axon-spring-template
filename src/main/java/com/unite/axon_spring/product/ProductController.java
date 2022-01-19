@@ -28,7 +28,6 @@ public class ProductController {
     @PostMapping("/add")
     public HttpStatus addProduct(@RequestBody ProductSummary productSummary){
         productSummary.setId(UUID.randomUUID().toString());
-
         commandGateway.send(new AddProductCommand(productSummary.getId(), productSummary.getPrice(), productSummary.getStock(), productSummary.getDescription()));
         return HttpStatus.ACCEPTED;
     }
