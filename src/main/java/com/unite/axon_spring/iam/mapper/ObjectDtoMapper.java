@@ -1,9 +1,11 @@
 package com.unite.axon_spring.iam.mapper;
 
 import com.unite.axon_spring.iam.dto.EnvironmentDTO;
+import com.unite.axon_spring.iam.dto.GroupFullViewDTO;
 import com.unite.axon_spring.iam.dto.RoleDTO;
 import com.unite.axon_spring.iam.dto.RoleFullViewDTO;
 import com.unite.axon_spring.iam.model.Environment;
+import com.unite.axon_spring.iam.model.Group;
 import com.unite.axon_spring.iam.model.Permission;
 import com.unite.axon_spring.iam.model.Role;
 
@@ -34,5 +36,20 @@ public class ObjectDtoMapper {
         dto.setPermissions(permissionNames);
         return dto;
     }
+
+
+    public static GroupFullViewDTO to(Group group)
+    {
+        GroupFullViewDTO dto= new GroupFullViewDTO();
+        List<String> roleNames = group.getRoles().stream().map(Role::getName).collect(Collectors.toList());
+        dto.setId(group.getId());
+        dto.setName(group.getName());
+        dto.setEnvSlug(group.getEnvSlug());
+        dto.setDescription(group.getDescription());
+        dto.setRoles(roleNames);
+        return dto;
+    }
+
+
 
 }
