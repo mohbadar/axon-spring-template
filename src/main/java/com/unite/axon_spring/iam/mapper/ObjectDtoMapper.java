@@ -1,13 +1,7 @@
 package com.unite.axon_spring.iam.mapper;
 
-import com.unite.axon_spring.iam.dto.EnvironmentDTO;
-import com.unite.axon_spring.iam.dto.GroupFullViewDTO;
-import com.unite.axon_spring.iam.dto.RoleDTO;
-import com.unite.axon_spring.iam.dto.RoleFullViewDTO;
-import com.unite.axon_spring.iam.model.Environment;
-import com.unite.axon_spring.iam.model.Group;
-import com.unite.axon_spring.iam.model.Permission;
-import com.unite.axon_spring.iam.model.Role;
+import com.unite.axon_spring.iam.dto.*;
+import com.unite.axon_spring.iam.model.*;
 
 import java.util.List;
 import java.util.function.Function;
@@ -50,6 +44,24 @@ public class ObjectDtoMapper {
         return dto;
     }
 
+
+    public static UserFullViewDTO to(User user)
+    {
+        List<String> groupNames = user.getGroups().stream().map(Group::getName).collect(Collectors.toList());
+        List<String> envNames = user.getEnvironments().stream().map(Environment::getName).collect(Collectors.toList());
+
+        UserFullViewDTO dto= new UserFullViewDTO();
+        dto.setName(user.getName());
+        dto.setAddress(user.getAddress());
+        dto.setUsername(user.getUsername());
+        dto.setEmail(user.getEmail());
+        dto.setPhoneNo(user.getPhoneNo());
+        dto.setActive(user.isActive());
+        dto.setGroups(groupNames);
+        dto.setEnvironments(envNames);
+
+        return dto;
+    }
 
 
 }

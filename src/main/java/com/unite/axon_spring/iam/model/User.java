@@ -37,33 +37,11 @@ public class User extends BaseEntity{
     @Column(unique = true)
     private String username;
 
-    // @Pattern( regexp = "(?=.*[0-9]).+" ),
-    // @Pattern( regexp = "(?=.*[a-z]).+" ),
-    // @Pattern( regexp = "(?=.*[A-Z]).+"),
-    // @Pattern( regexp = "(?=.*[!@#$%^&*+=?-_()/\"\\.,<>~`;:]).+"),
-    // @Pattern( regexp = "(?=\\S+$).+" )
     @JsonIgnore
     private String password;
 
-    @JsonIgnore
-    private String odkPassword;
-
-    @Transient
-    private boolean hasOdkPassword;
-
-    @Transient
-    @JsonIgnore
-    private String confirmPassword;
-
     @Column
     private String email;
-
-    @Column
-    private String preferences;
-
-    @Column
-    private String avatar;
-
     @Column
 	private Boolean deleted;
 
@@ -105,8 +83,8 @@ public class User extends BaseEntity{
         this.name = name;
     }
 
-    public User(String id, String name, String address, String username, boolean active, String odkPassword, String email,
-            String avatar, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public User(String id, String name, String address, String username, boolean active, String email
+            , LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -114,19 +92,10 @@ public class User extends BaseEntity{
         this.active = active;
         this.email = email;
 
-        this.hasOdkPassword = false;
-        if (odkPassword != null && odkPassword.length() > 0) {
-            this.hasOdkPassword = true;
-        }
-        this.avatar = avatar;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    @JsonIgnore
-    public Boolean isMatchingPasswords() {
-        return this.password.equals(this.confirmPassword);
-    }
 
     @ManyToOne
     @JoinColumn(name="profession_id", nullable = true)

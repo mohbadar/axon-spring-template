@@ -10,4 +10,7 @@ public class AxonSpringApplication {
 		SpringApplication.run(AxonSpringApplication.class, args);
 	}
 
+//	public BCryptPasswordEncoder jwtPasswordEncoder() {
+//		return new BCryptPasswordEncoder();
+//	}
 }
