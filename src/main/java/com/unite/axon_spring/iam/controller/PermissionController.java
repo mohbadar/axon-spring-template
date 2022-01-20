@@ -1,5 +1,6 @@
 package com.unite.axon_spring.iam.controller;
 
+import com.unite.axon_spring.iam.audit.annotation.Auditable;
 import com.unite.axon_spring.iam.model.Permission;
 import com.unite.axon_spring.iam.query.GetPermissionQuery;
 import com.unite.axon_spring.iam.query.GetPermissionsQuery;
@@ -29,12 +30,14 @@ public class PermissionController {
         this.queryGateway = queryGateway;
     }
 
+    @Auditable
     @GetMapping()
     public ResponseEntity<List<Permission>> getPermissions() throws ExecutionException, InterruptedException {
         return ResponseEntity.ok(queryGateway.query(new GetPermissionsQuery(), ResponseTypes.multipleInstancesOf(Permission.class)).get());
     }
 
 
+    @Auditable
     @GetMapping("/{id}")
     public ResponseEntity<Permission> getPermission(@PathVariable(required = true) String id) throws ExecutionException, InterruptedException {
         CompletableFuture<Permission> future = queryGateway.query(new GetPermissionQuery(id), Permission.class);

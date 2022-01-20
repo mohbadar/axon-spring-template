@@ -1,5 +1,6 @@
 package com.unite.axon_spring.iam.controller;
 
+import com.unite.axon_spring.iam.audit.annotation.Auditable;
 import com.unite.axon_spring.iam.command.*;
 import com.unite.axon_spring.iam.dto.EnvironmentDTO;
 import com.unite.axon_spring.iam.dto.RoleDTO;
@@ -34,6 +35,7 @@ public class RoleController {
         this.queryGateway = queryGateway;
     }
 
+    @Auditable
     @PostMapping
     public ResponseEntity<HttpStatus> addRole(@Valid @RequestBody RoleDTO dto) throws ExecutionException, InterruptedException {
         dto.setId(UUID.randomUUID().toString());
@@ -50,6 +52,7 @@ public class RoleController {
     }
 
 
+    @Auditable
     @PutMapping
     public ResponseEntity<HttpStatus> updateRole(@Valid @RequestBody RoleDTO dto) throws ExecutionException, InterruptedException {
         commandGateway.send(new UpdateRoleCommand(
@@ -65,17 +68,20 @@ public class RoleController {
     }
 
 
+    @Auditable
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deactivateRole(@PathVariable(required = true) String id){
         commandGateway.send(new DeactivateRoleCommand(id));
         return ResponseEntity.ok(HttpStatus.ACCEPTED);
     }
 
+    @Auditable
     @GetMapping
     public ResponseEntity<List<RoleFullViewDTO>> getRoles() throws ExecutionException, InterruptedException {
         return ResponseEntity.ok(queryGateway.query(new GetRolesQuery(), ResponseTypes.multipleInstancesOf(RoleFullViewDTO.class)).get());
     }
 
+    @Auditable
     @GetMapping("/{id}")
     public ResponseEntity<RoleFullViewDTO> getRole(@PathVariable(required = true) String id) throws ExecutionException, InterruptedException {
         CompletableFuture<RoleFullViewDTO> future = queryGateway.query(new GetRoleQuery(id), RoleFullViewDTO.class);

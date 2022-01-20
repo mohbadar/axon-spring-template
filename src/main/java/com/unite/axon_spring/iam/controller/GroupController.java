@@ -1,5 +1,6 @@
 package com.unite.axon_spring.iam.controller;
 
+import com.unite.axon_spring.iam.audit.annotation.Auditable;
 import com.unite.axon_spring.iam.command.*;
 import com.unite.axon_spring.iam.dto.GroupDTO;
 import com.unite.axon_spring.iam.dto.GroupFullViewDTO;
@@ -34,6 +35,7 @@ public class GroupController {
         this.queryGateway = queryGateway;
     }
 
+    @Auditable
     @PostMapping
     public ResponseEntity<HttpStatus> addGroup(@Valid @RequestBody GroupDTO dto) throws ExecutionException, InterruptedException {
         dto.setId(UUID.randomUUID().toString());
@@ -50,6 +52,7 @@ public class GroupController {
     }
 
 
+    @Auditable
     @PutMapping
     public ResponseEntity<HttpStatus> updateGroup(@Valid @RequestBody GroupDTO dto) throws ExecutionException, InterruptedException {
         commandGateway.send(new UpdateGroupCommand(
@@ -64,17 +67,20 @@ public class GroupController {
         return ResponseEntity.ok(HttpStatus.ACCEPTED);
     }
 
+    @Auditable
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deactivateGroup(@PathVariable(required = true) String id){
         commandGateway.send(new DeactivateGroupCommand(id));
         return ResponseEntity.ok(HttpStatus.ACCEPTED);
     }
 
+    @Auditable
     @GetMapping
     public ResponseEntity<List<GroupFullViewDTO>> getGroups() throws ExecutionException, InterruptedException {
         return ResponseEntity.ok(queryGateway.query(new GetGroupsQuery(), ResponseTypes.multipleInstancesOf(GroupFullViewDTO.class)).get());
     }
 
+    @Auditable
     @GetMapping("/{id}")
     public ResponseEntity<GroupFullViewDTO> getGroup(@PathVariable(required = true) String id) throws ExecutionException, InterruptedException {
         CompletableFuture<GroupFullViewDTO> future = queryGateway.query(new GetGroupQuery(id), GroupFullViewDTO.class);

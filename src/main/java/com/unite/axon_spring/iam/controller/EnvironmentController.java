@@ -1,5 +1,6 @@
 package com.unite.axon_spring.iam.controller;
 
+import com.unite.axon_spring.iam.audit.annotation.Auditable;
 import com.unite.axon_spring.iam.command.CreateEnvironmentCommand;
 import com.unite.axon_spring.iam.command.DeactivateEnvironmentCommand;
 import com.unite.axon_spring.iam.command.UpdateEnvironmentCommand;
@@ -31,6 +32,7 @@ public class EnvironmentController {
         this.queryGateway = queryGateway;
     }
 
+    @Auditable
     @PostMapping
     public ResponseEntity<HttpStatus> addEnvironment(@Valid @RequestBody EnvironmentDTO dto) throws ExecutionException, InterruptedException {
         dto.setId(UUID.randomUUID().toString());
@@ -47,6 +49,7 @@ public class EnvironmentController {
     }
 
 
+    @Auditable
     @PutMapping
     public ResponseEntity<HttpStatus> updateEnvironment(@Valid @RequestBody EnvironmentDTO dto) throws ExecutionException, InterruptedException {
         commandGateway.send(new UpdateEnvironmentCommand(
@@ -61,17 +64,20 @@ public class EnvironmentController {
         return ResponseEntity.ok(HttpStatus.ACCEPTED);
     }
 
+    @Auditable
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deactivateEnvironment(@PathVariable(required = true) String id){
         commandGateway.send(new DeactivateEnvironmentCommand(id));
         return ResponseEntity.ok(HttpStatus.ACCEPTED);
     }
 
+    @Auditable
     @GetMapping
     public ResponseEntity<List<EnvironmentDTO>> getEnvironments() throws ExecutionException, InterruptedException {
         return ResponseEntity.ok(queryGateway.query(new GetEnvironmentsQuery(), ResponseTypes.multipleInstancesOf(EnvironmentDTO.class)).get());
     }
 
+    @Auditable
     @GetMapping("/{id}")
     public ResponseEntity<EnvironmentDTO> getEnvironment(@PathVariable(required = true) String id) throws ExecutionException, InterruptedException {
         CompletableFuture<EnvironmentDTO> future = queryGateway.query(new GetEnvironmentQuery(id), EnvironmentDTO.class);
