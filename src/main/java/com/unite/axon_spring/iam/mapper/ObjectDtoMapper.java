@@ -1,5 +1,6 @@
 package com.unite.axon_spring.iam.mapper;
 
+import com.unite.axon_spring.iam.controller.resource.RoleVO;
 import com.unite.axon_spring.iam.dto.*;
 import com.unite.axon_spring.iam.model.*;
 
@@ -22,6 +23,18 @@ public class ObjectDtoMapper {
     public static RoleFullViewDTO to(Role role)
     {
         RoleFullViewDTO dto= new RoleFullViewDTO();
+        List<String> permissionNames = role.getPermissions().stream().map(Permission::getName).collect(Collectors.toList());
+        dto.setId(role.getId());
+        dto.setName(role.getName());
+        dto.setEnvSlug(role.getEnvSlug());
+        dto.setDescription(role.getDescription());
+        dto.setPermissions(permissionNames);
+        return dto;
+    }
+
+    public static RoleVO toRoleVO(Role role)
+    {
+        RoleVO dto= new RoleVO();
         List<String> permissionNames = role.getPermissions().stream().map(Permission::getName).collect(Collectors.toList());
         dto.setId(role.getId());
         dto.setName(role.getName());

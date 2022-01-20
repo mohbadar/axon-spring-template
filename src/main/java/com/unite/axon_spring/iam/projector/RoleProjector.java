@@ -1,5 +1,6 @@
 package com.unite.axon_spring.iam.projector;
 
+import com.unite.axon_spring.iam.controller.resource.RoleVO;
 import com.unite.axon_spring.iam.dto.EnvironmentDTO;
 import com.unite.axon_spring.iam.dto.RoleDTO;
 import com.unite.axon_spring.iam.dto.RoleFullViewDTO;
@@ -103,16 +104,29 @@ public class RoleProjector {
         return ObjectDtoMapper.to(role);
     }
 
+//    @QueryHandler
+//    public List<RoleFullViewDTO> getRoles(GetRolesQuery query)
+//    {
+//        List<RoleFullViewDTO> roles = roleRepository.findAll().stream().map(toRole()).collect(Collectors.toList());
+//        return roles;
+//    }
+//
+//
+//    private Function<Role, RoleFullViewDTO> toRole(){
+//        return r->{
+//            return ObjectDtoMapper.to(r);
+//        };
+//    }
+
     @QueryHandler
-    public List<RoleFullViewDTO> getRoles(GetRolesQuery query)
+    public List<RoleVO> getRoles(GetRolesQuery query)
     {
-        List<RoleFullViewDTO> roles = roleRepository.findAll().stream().map(toRole()).collect(Collectors.toList());
+        List<RoleVO> roles = roleRepository.findAll().stream().map(toRoleVO()).collect(Collectors.toList());
         return roles;
     }
-
-    private Function<Role, RoleFullViewDTO> toRole(){
+    private Function<Role, RoleVO> toRoleVO(){
         return r->{
-            return ObjectDtoMapper.to(r);
+            return ObjectDtoMapper.toRoleVO(r);
         };
     }
 }

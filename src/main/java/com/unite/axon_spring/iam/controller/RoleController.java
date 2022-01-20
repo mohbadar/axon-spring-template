@@ -2,9 +2,12 @@ package com.unite.axon_spring.iam.controller;
 
 import com.unite.axon_spring.iam.audit.annotation.Auditable;
 import com.unite.axon_spring.iam.command.*;
+import com.unite.axon_spring.iam.controller.resource.RoleVO;
+import com.unite.axon_spring.iam.controller.resource.RolesListVO;
 import com.unite.axon_spring.iam.dto.EnvironmentDTO;
 import com.unite.axon_spring.iam.dto.RoleDTO;
 import com.unite.axon_spring.iam.dto.RoleFullViewDTO;
+import com.unite.axon_spring.iam.model.Permission;
 import com.unite.axon_spring.iam.query.GetEnvironmentQuery;
 import com.unite.axon_spring.iam.query.GetEnvironmentsQuery;
 import com.unite.axon_spring.iam.query.GetRoleQuery;
@@ -28,7 +31,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping(path = "/api/roles", consumes = MediaType.APPLICATION_JSON_VALUE , produces = "application/hal+json")
+@RequestMapping(path = "/api/roles", produces = "application/hal+json")
 public class RoleController {
 
     private final CommandGateway commandGateway;
@@ -81,8 +84,42 @@ public class RoleController {
 
     @Auditable
     @GetMapping
-    public ResponseEntity<List<RoleFullViewDTO>> getRoles() throws ExecutionException, InterruptedException {
-        return ResponseEntity.ok(queryGateway.query(new GetRolesQuery(), ResponseTypes.multipleInstancesOf(RoleFullViewDTO.class)).get());
+    public ResponseEntity<RolesListVO> getRoles() throws ExecutionException, InterruptedException {
+        List<RoleVO> roles = queryGateway.query(new GetRolesQuery(), ResponseTypes.multipleInstancesOf(RoleVO.class)).get();
+
+        RolesListVO rolesListVO = new RolesListVO();
+
+        for (RoleVO role : roles) {
+            // Adding self link role 'singular' resource
+            Link selfLink = linkTo(RoleController.class)
+                    .slash(role.getId()).withSelfRel();
+
+            ResponseEntity<HttpStatus> methodLinkBuilder =
+                    methodOn(RoleController.class)
+                            .deactivateRole(role.getId());
+            Link deactivateRole =
+                    linkTo(methodLinkBuilder).withRel("deactivate-role");
+
+            ResponseEntity<List<Permission>> permissionsOfRolesLink =
+                    methodOn(PermissionController.class)
+                            .getPermissions();
+            Link rolePermissions =
+                    linkTo(permissionsOfRolesLink).withRel("role-permissions");
+            // Add link to singular resource
+            role.add(selfLink);
+            role.add(deactivateRole);
+            role.add(rolePermissions);
+            rolesListVO.getRoles().add(role);
+        }
+
+        // Adding self link employee collection resource
+        Link selfLink =
+                linkTo(methodOn(RoleController.class).getRoles())
+                        .withSelfRel();
+        // Add link to collection resource
+        rolesListVO.add(selfLink);
+
+        return ResponseEntity.ok(rolesListVO);
     }
 
     @Auditable
