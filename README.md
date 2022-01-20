@@ -16,6 +16,21 @@
 - Spring Web
 - Spring HATEOAS
 
+### Development Practices
+- Domain Driven Design (DDD)
+- Event Sourcing 
+- CQRS
+- Event Driven Design (EDD)
+- Statelessness
+- Multi-tenancy
+- Messaging 
+- Aspect Based Programming
+- API 
+- Caching
+- Logging
+- Validation
+- Extensive Exception Handling
+- ...
 
 
 ## Axon Framework
