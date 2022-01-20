@@ -1,5 +1,23 @@
 # Spring Boot and Axon Framework Development Template
 
+### Technologies
+- Axon Framework
+- Axon Server
+- PostgreSQL
+- H2
+- Spring Boot
+- Spring Security
+- JWT Lib
+- Spring AOP (Aspect Oriented Programming)
+- Spring Data
+- Spring Test
+- Spring Validation
+- Spring DevTools
+- Spring Web
+- Spring HATEOAS
+
+
+
 ## Axon Framework
 Based on architectural principles, such as Domain-Driven Design (DDD) and Command-Query Responsibility Separation (CQRS), Axon Framework provides the building blocks that CQRS requires and helps to create scalable and extensible applications while maintaining application consistency in distributed systems. The open source Axon Framework provides a clean, elegant Java API for writing DDD, CQRS and Event Sourcing applications. It provides basic building blocks for writing aggregates, commands, queries, events, sagas, command handlers, event handlers, query handlers, repositories, communication buses and so on. It allows configuration hooks for pluggable infrastructure to support these building blocks. It utilizes intelligent defaults while allowing for configuration overrides. It supports popular technologies such as Spring Boot.
 #### Scalability and Performance
