@@ -12,6 +12,7 @@ import com.unite.axon_spring.iam.query.GetRolesQuery;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +24,11 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
-@RequestMapping(path = "/api/roles", consumes = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/api/roles", consumes = MediaType.APPLICATION_JSON_VALUE , produces = "application/hal+json")
 public class RoleController {
 
     private final CommandGateway commandGateway;
@@ -85,7 +89,14 @@ public class RoleController {
     @GetMapping("/{id}")
     public ResponseEntity<RoleFullViewDTO> getRole(@PathVariable(required = true) String id) throws ExecutionException, InterruptedException {
         CompletableFuture<RoleFullViewDTO> future = queryGateway.query(new GetRoleQuery(id), RoleFullViewDTO.class);
-        return ResponseEntity.ok(future.get());
+
+        RoleFullViewDTO dto = future.get();
+        Link link = linkTo(RoleController.class)
+                .slash(dto.getId()).withSelfRel();
+
+
+
+        return ResponseEntity.ok(dto);
     }
 
 }
