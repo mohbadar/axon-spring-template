@@ -36,7 +36,7 @@ public class PermissionController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<Permission> getPermission(@PathVariable String id) throws ExecutionException, InterruptedException {
+    public ResponseEntity<Permission> getPermission(@PathVariable(required = true) String id) throws ExecutionException, InterruptedException {
         CompletableFuture<Permission> future = queryGateway.query(new GetPermissionQuery(id), Permission.class);
         return ResponseEntity.ok(future.get());
     }

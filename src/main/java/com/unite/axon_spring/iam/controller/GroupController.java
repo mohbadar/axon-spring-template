@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -34,7 +35,7 @@ public class GroupController {
     }
 
     @PostMapping
-    public ResponseEntity<HttpStatus> addGroup(@RequestBody GroupDTO dto) throws ExecutionException, InterruptedException {
+    public ResponseEntity<HttpStatus> addGroup(@Valid @RequestBody GroupDTO dto) throws ExecutionException, InterruptedException {
         dto.setId(UUID.randomUUID().toString());
         commandGateway.send(new CreateGroupCommand(
                         dto.getId(),
@@ -50,7 +51,7 @@ public class GroupController {
 
 
     @PutMapping
-    public ResponseEntity<HttpStatus> updateGroup(@RequestBody GroupDTO dto) throws ExecutionException, InterruptedException {
+    public ResponseEntity<HttpStatus> updateGroup(@Valid @RequestBody GroupDTO dto) throws ExecutionException, InterruptedException {
         commandGateway.send(new UpdateGroupCommand(
                         dto.getId(),
                         dto.getName(),
@@ -64,7 +65,7 @@ public class GroupController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deactivateGroup(@PathVariable String id){
+    public ResponseEntity<HttpStatus> deactivateGroup(@PathVariable(required = true) String id){
         commandGateway.send(new DeactivateGroupCommand(id));
         return ResponseEntity.ok(HttpStatus.ACCEPTED);
     }
@@ -75,7 +76,7 @@ public class GroupController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GroupFullViewDTO> getGroup(@PathVariable String id) throws ExecutionException, InterruptedException {
+    public ResponseEntity<GroupFullViewDTO> getGroup(@PathVariable(required = true) String id) throws ExecutionException, InterruptedException {
         CompletableFuture<GroupFullViewDTO> future = queryGateway.query(new GetGroupQuery(id), GroupFullViewDTO.class);
         return ResponseEntity.ok(future.get());
     }

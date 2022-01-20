@@ -41,9 +41,12 @@ public interface UserRepository extends PagingAndSortingRepository<User, String>
     long countByEnvSlugAndActive(String envSlug, boolean active);
 
     Optional<User> findByEmail(String email);
+    Optional<User> findByPhoneNo(String phoneNo);
     Page<User> findByEmailContains(String email, Pageable pageable);
     Page<User> findAllByEmail(String email, Pageable pageable);
     Page<User> findAllByEmailContainsAndEmail(String email, String auth, Pageable pageable);
 
     Boolean existsByEmail(String email);
+    Boolean existsByUsername(String email);
+    Boolean existsByPhoneNo(String email);
 }

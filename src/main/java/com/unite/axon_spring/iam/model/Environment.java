@@ -9,6 +9,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -21,15 +23,21 @@ import java.util.Set;
 public class Environment extends BaseEntity{
 	
 	@Column(name = "slug", unique = true)
+	@NotNull
+	@Size(min=2, message="Slug should have at least 2 characters")
 	private String slug;
  
 	@Column(name = "name")
+	@NotNull
+	@Size(min=3, message="Name should have at least 3 characters")
 	private String name;
  
 	@Column(name = "description")
 	private String description;
 
 	@Column(name = "secret_key", unique = true)
+	@NotNull
+	@Size(min=3, message="SecrectKey should have at least 3 characters")
 	private String secretKey;
  
 	@Column(name = "active")

@@ -1,12 +1,14 @@
 package com.unite.axon_spring.iam.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 
 @AllArgsConstructor
@@ -18,6 +20,8 @@ import java.util.Collection;
 public class Role extends BaseEntity{
 
 	@Column
+	@NotNull
+	@Size(min=3, message="Name should have at least 3 characters")
 	private String name;
 	
 	@Column(name = "description")
@@ -27,6 +31,8 @@ public class Role extends BaseEntity{
     private boolean active;
 
 	@Column(name = "env_slug")
+	@NotNull
+	@Size(min=2, message="envSlug should have at least 2 characters")
 	private String envSlug;
 	
 	@ManyToMany(mappedBy = "roles")

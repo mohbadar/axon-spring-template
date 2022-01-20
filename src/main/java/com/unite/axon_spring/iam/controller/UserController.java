@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -30,7 +31,7 @@ public class UserController {
 
 
     @PostMapping
-    public ResponseEntity<HttpStatus> addUser(@RequestBody UserDTO dto) throws ExecutionException, InterruptedException {
+    public ResponseEntity<HttpStatus> addUser(@Valid @RequestBody UserDTO dto) throws ExecutionException, InterruptedException {
         dto.setId(UUID.randomUUID().toString());
         commandGateway.send(new CreateUserCommand(
                 dto.getId(),
@@ -49,9 +50,8 @@ public class UserController {
 
 
     @PutMapping
-    public ResponseEntity<HttpStatus> updateUser(@RequestBody UserDTO dto) throws ExecutionException, InterruptedException {
+    public ResponseEntity<HttpStatus> updateUser(@Valid @RequestBody UserDTO dto) throws ExecutionException, InterruptedException {
         System.out.println(dto.toString());
-        dto.setId(UUID.randomUUID().toString());
         commandGateway.send(new UpdateUserCommand(
                 dto.getId(),
                 dto.getName(),
@@ -69,7 +69,7 @@ public class UserController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deactivateUser(@PathVariable String id){
+    public ResponseEntity<HttpStatus> deactivateUser(@PathVariable(required = true) String id){
         commandGateway.send(new DeactivateUserCommand(id));
         return ResponseEntity.ok(HttpStatus.ACCEPTED);
     }
@@ -80,25 +80,25 @@ public class UserController {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<UserFullViewDTO> getUserById(@PathVariable String id) throws ExecutionException, InterruptedException {
+    public ResponseEntity<UserFullViewDTO> getUserById(@PathVariable(required = true) String id) throws ExecutionException, InterruptedException {
         CompletableFuture<UserFullViewDTO> future = queryGateway.query(new GetUserByIdQuery(id), UserFullViewDTO.class);
         return ResponseEntity.ok(future.get());
     }
 
     @GetMapping("/username/{username}")
-    public ResponseEntity<UserFullViewDTO> getUserByUsername(@PathVariable String username) throws ExecutionException, InterruptedException {
+    public ResponseEntity<UserFullViewDTO> getUserByUsername(@PathVariable(required = true) String username) throws ExecutionException, InterruptedException {
         CompletableFuture<UserFullViewDTO> future = queryGateway.query(new GetUserByUsernameQuery(username), UserFullViewDTO.class);
         return ResponseEntity.ok(future.get());
     }
 
     @GetMapping("/email/{email}")
-    public ResponseEntity<UserFullViewDTO> getUserByEmail(@PathVariable String email) throws ExecutionException, InterruptedException {
+    public ResponseEntity<UserFullViewDTO> getUserByEmail(@PathVariable(required = true) String email) throws ExecutionException, InterruptedException {
         CompletableFuture<UserFullViewDTO> future = queryGateway.query(new GetUserByEmailQuery(email), UserFullViewDTO.class);
         return ResponseEntity.ok(future.get());
     }
 
     @GetMapping("/env/{envSlug}")
-    public ResponseEntity<List<UserFullViewDTO>> getUserByEnvSlug(@PathVariable String envSlug) throws ExecutionException, InterruptedException {
+    public ResponseEntity<List<UserFullViewDTO>> getUserByEnvSlug(@PathVariable(required = true) String envSlug) throws ExecutionException, InterruptedException {
         return ResponseEntity.ok(queryGateway.query(new GetUserByEnvQuery(envSlug), ResponseTypes.multipleInstancesOf(UserFullViewDTO.class)).get());
     }
 

@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 
 @AllArgsConstructor
@@ -17,6 +19,9 @@ import java.util.Collection;
 @Table(name = "permission")
 public class Permission extends BaseEntity{
 
+    @Column
+    @NotNull
+    @Size(min=3, message="Name should have at least 3 characters")
     private String name;
 
     @Column(name = "description")

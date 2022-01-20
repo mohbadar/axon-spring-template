@@ -2,14 +2,14 @@ package com.unite.axon_spring.iam.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
@@ -18,11 +18,14 @@ import java.util.HashSet;
 @NoArgsConstructor
 @Setter
 @Getter
+@ToString
 @Entity(name = "User")
 @Table(name = "user_tbl", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
 public class User extends BaseEntity{
 
     @Column
+    @NotNull
+    @Size(min=3, message="Name should have at least 3 characters")
     private String name;
 
     @Column
@@ -31,16 +34,23 @@ public class User extends BaseEntity{
     @Column(name = "active", length = 1, nullable = false)
     private boolean active;
 
-    @Column
+    @Column(unique = true)
+    @NotNull
+    @Size(min=3, message="PhoneNo should have at least 3 characters")
     private String phoneNo;
 
     @Column(unique = true)
+    @NotNull
+    @Size(min=3, message="Username should have at least 3 characters")
     private String username;
 
     @JsonIgnore
+    @NotNull
+    @Size(min=8, message="Password should have at least 8 characters")
     private String password;
 
-    @Column
+    @Column()
+    @Email
     private String email;
     @Column
 	private Boolean deleted;
@@ -72,11 +82,6 @@ public class User extends BaseEntity{
     @JsonIgnore
     private Collection<Environment> environments = new HashSet<>();
 
-    // public User(String name, String email, String address) {
-    // this.name = name;
-    // this.email = email;
-    // this.address = address;
-    // }
     public User(String id, String email, String name) {
         this.id = id;
         this.email = email;
@@ -102,10 +107,4 @@ public class User extends BaseEntity{
     @JsonIgnore
     private Profession profession;
 
-
-    @Override
-    public String toString() {
-        return "User [name=" + name + ", active=" + active + ", email=" + email + ", created_at=" + createdAt
-                + ", updated_at=" + updatedAt + "]";
-    }
 }

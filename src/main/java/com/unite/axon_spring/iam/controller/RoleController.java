@@ -12,16 +12,18 @@ import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 @RestController
-@RequestMapping(path = "/api/roles")
+@RequestMapping(path = "/api/roles", consumes = MediaType.APPLICATION_JSON_VALUE)
 public class RoleController {
 
     private final CommandGateway commandGateway;
@@ -33,7 +35,7 @@ public class RoleController {
     }
 
     @PostMapping
-    public ResponseEntity<HttpStatus> addRole(@RequestBody RoleDTO dto) throws ExecutionException, InterruptedException {
+    public ResponseEntity<HttpStatus> addRole(@Valid @RequestBody RoleDTO dto) throws ExecutionException, InterruptedException {
         dto.setId(UUID.randomUUID().toString());
         commandGateway.send(new CreateRoleCommand(
                         dto.getId(),
@@ -49,7 +51,7 @@ public class RoleController {
 
 
     @PutMapping
-    public ResponseEntity<HttpStatus> updateRole(@RequestBody RoleDTO dto) throws ExecutionException, InterruptedException {
+    public ResponseEntity<HttpStatus> updateRole(@Valid @RequestBody RoleDTO dto) throws ExecutionException, InterruptedException {
         commandGateway.send(new UpdateRoleCommand(
                         dto.getId(),
                         dto.getName(),
@@ -64,7 +66,7 @@ public class RoleController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deactivateRole(@PathVariable String id){
+    public ResponseEntity<HttpStatus> deactivateRole(@PathVariable(required = true) String id){
         commandGateway.send(new DeactivateRoleCommand(id));
         return ResponseEntity.ok(HttpStatus.ACCEPTED);
     }
@@ -75,7 +77,7 @@ public class RoleController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RoleFullViewDTO> getRole(@PathVariable String id) throws ExecutionException, InterruptedException {
+    public ResponseEntity<RoleFullViewDTO> getRole(@PathVariable(required = true) String id) throws ExecutionException, InterruptedException {
         CompletableFuture<RoleFullViewDTO> future = queryGateway.query(new GetRoleQuery(id), RoleFullViewDTO.class);
         return ResponseEntity.ok(future.get());
     }

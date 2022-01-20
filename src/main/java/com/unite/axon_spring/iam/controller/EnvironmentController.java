@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -31,7 +32,7 @@ public class EnvironmentController {
     }
 
     @PostMapping
-    public ResponseEntity<HttpStatus> addEnvironment(@RequestBody EnvironmentDTO dto) throws ExecutionException, InterruptedException {
+    public ResponseEntity<HttpStatus> addEnvironment(@Valid @RequestBody EnvironmentDTO dto) throws ExecutionException, InterruptedException {
         dto.setId(UUID.randomUUID().toString());
         commandGateway.send(new CreateEnvironmentCommand(
                 dto.getId(),
@@ -47,7 +48,7 @@ public class EnvironmentController {
 
 
     @PutMapping
-    public ResponseEntity<HttpStatus> updateEnvironment(@RequestBody EnvironmentDTO dto) throws ExecutionException, InterruptedException {
+    public ResponseEntity<HttpStatus> updateEnvironment(@Valid @RequestBody EnvironmentDTO dto) throws ExecutionException, InterruptedException {
         commandGateway.send(new UpdateEnvironmentCommand(
                         dto.getId(),
                         dto.getSlug(),
@@ -61,7 +62,7 @@ public class EnvironmentController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deactivateEnvironment(@PathVariable String id){
+    public ResponseEntity<HttpStatus> deactivateEnvironment(@PathVariable(required = true) String id){
         commandGateway.send(new DeactivateEnvironmentCommand(id));
         return ResponseEntity.ok(HttpStatus.ACCEPTED);
     }
@@ -72,7 +73,7 @@ public class EnvironmentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EnvironmentDTO> getEnvironment(@PathVariable String id) throws ExecutionException, InterruptedException {
+    public ResponseEntity<EnvironmentDTO> getEnvironment(@PathVariable(required = true) String id) throws ExecutionException, InterruptedException {
         CompletableFuture<EnvironmentDTO> future = queryGateway.query(new GetEnvironmentQuery(id), EnvironmentDTO.class);
         return ResponseEntity.ok(future.get());
     }

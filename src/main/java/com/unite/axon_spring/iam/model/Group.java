@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 
 // @Data
@@ -21,6 +23,8 @@ import java.util.Collection;
 public class Group extends BaseEntity{
  
 	@Column(name = "name")
+	@NotNull
+	@Size(min=3, message="Name should have at least 3 characters")
 	private String name;
 	
 	@Column
@@ -30,6 +34,8 @@ public class Group extends BaseEntity{
     private boolean active;
 	
 	@Column(name = "env_slug")
+	@NotNull
+	@Size(min=2, message="EnvSlug should have at least 2 characters")
 	private String envSlug;
 	
 	@ManyToMany(fetch=FetchType.LAZY)
