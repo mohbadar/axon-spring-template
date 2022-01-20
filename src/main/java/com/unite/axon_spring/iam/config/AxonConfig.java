@@ -1,4 +1,4 @@
-package com.unite.axon_spring.config;
+package com.unite.axon_spring.iam.config;
 
 import org.axonframework.config.EventProcessingConfigurer;
 import org.axonframework.eventhandling.TrackingEventProcessorConfiguration;

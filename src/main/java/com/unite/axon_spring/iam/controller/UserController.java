@@ -1,8 +1,6 @@
 package com.unite.axon_spring.iam.controller;
 
 import com.unite.axon_spring.iam.command.*;
-import com.unite.axon_spring.iam.dto.RoleDTO;
-import com.unite.axon_spring.iam.dto.RoleFullViewDTO;
 import com.unite.axon_spring.iam.dto.UserDTO;
 import com.unite.axon_spring.iam.dto.UserFullViewDTO;
 import com.unite.axon_spring.iam.query.*;

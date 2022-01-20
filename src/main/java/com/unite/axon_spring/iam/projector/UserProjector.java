@@ -19,6 +19,7 @@ import com.unite.axon_spring.iam.repository.UserRepository;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -51,7 +52,7 @@ public class UserProjector {
         user.setUsername(event.getUsername());
 
         //cypher data to be stored
-        user.setPassword(event.getPassword());
+        user.setPassword(encodePassword(event.getPassword().trim()));
 
         user.setEmail(event.getEmail());
         user.setGroups(groups);
@@ -81,7 +82,7 @@ public class UserProjector {
         user.setUsername(event.getUsername());
 
         //cypher data to be stored
-        user.setPassword(event.getPassword());
+        user.setPassword(encodePassword(event.getPassword().trim()));
 
         user.setEmail(event.getEmail());
         user.setGroups(groups);
@@ -150,5 +151,12 @@ public class UserProjector {
         return r->{
             return ObjectDtoMapper.to(r);
         };
+    }
+
+
+
+    public String encodePassword(String password) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.encode(password);
     }
 }
