@@ -1,6 +1,6 @@
-## Spring Boot and Axon Framework Development Template
+# Spring Boot and Axon Framework Development Template
 
-### Axon Framework
+## Axon Framework
 Based on architectural principles, such as Domain-Driven Design (DDD) and Command-Query Responsibility Separation (CQRS), Axon Framework provides the building blocks that CQRS requires and helps to create scalable and extensible applications while maintaining application consistency in distributed systems. The open source Axon Framework provides a clean, elegant Java API for writing DDD, CQRS and Event Sourcing applications. It provides basic building blocks for writing aggregates, commands, queries, events, sagas, command handlers, event handlers, query handlers, repositories, communication buses and so on. It allows configuration hooks for pluggable infrastructure to support these building blocks. It utilizes intelligent defaults while allowing for configuration overrides. It supports popular technologies such as Spring Boot.
 #### Scalability and Performance
 CQRS and Axon distinguishes between two types of application components: query (read) and update (write) components. This means the information structure in these components can be optimized for the purpose at hand. As a result, query components have quick access to data that is already structured for its purpose. This in itself is a performance benefit, but also allows scaling for a specific component type.
@@ -13,12 +13,13 @@ As software systems evolve during their lifetime, they often grow more complex. 
 
 #### Application and Business Insights
 The Event Sourcing paradigm championed by Axon is proven to provide for a valuable source of information for analytics and reporting. The Event Stream provides a reliable trail of everything that happened in the application, based on which new and unanticipated insights can be calculated, from day one. In addition because Axon is the central hub of all communication in the system, it can provide real time insight into what is going on in the application. This is especially important for debugging and tuning distributed applications.
+
 ### Axon Server
 Axon Server makes it significantly easier for the user to setup and maintain the environment. 
 
 
 
-###Core Principles
+## Core Principles
 This section provides a list of design principles and best practices for building real-time, request/response and batch
 oriented data management and data driven systems using Axon and Spring. The systems which are building around these principles are going be a multi-tenant, service-oriented, and event-driven architecture, and will be deployed in a cloud model or on-
 premises.
