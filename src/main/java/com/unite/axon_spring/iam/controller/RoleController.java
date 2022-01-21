@@ -90,7 +90,6 @@ public class RoleController {
         RolesListVO rolesListVO = new RolesListVO();
 
         for (RoleVO role : roles) {
-            // Adding self link role 'singular' resource
             Link selfLink = linkTo(RoleController.class)
                     .slash(role.getId()).withSelfRel();
 
@@ -105,18 +104,14 @@ public class RoleController {
                             .getPermissions();
             Link rolePermissions =
                     linkTo(permissionsOfRolesLink).withRel("role-permissions");
-            // Add link to singular resource
             role.add(selfLink);
             role.add(deactivateRole);
             role.add(rolePermissions);
             rolesListVO.getRoles().add(role);
         }
-
-        // Adding self link employee collection resource
         Link selfLink =
                 linkTo(methodOn(RoleController.class).getRoles())
                         .withSelfRel();
-        // Add link to collection resource
         rolesListVO.add(selfLink);
 
         return ResponseEntity.ok(rolesListVO);
@@ -126,13 +121,9 @@ public class RoleController {
     @GetMapping("/{id}")
     public ResponseEntity<RoleFullViewDTO> getRole(@PathVariable(required = true) String id) throws ExecutionException, InterruptedException {
         CompletableFuture<RoleFullViewDTO> future = queryGateway.query(new GetRoleQuery(id), RoleFullViewDTO.class);
-
         RoleFullViewDTO dto = future.get();
         Link link = linkTo(RoleController.class)
                 .slash(dto.getId()).withSelfRel();
-
-
-
         return ResponseEntity.ok(dto);
     }
 
