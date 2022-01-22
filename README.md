@@ -3,6 +3,7 @@
 ### Technologies
 - Axon Framework
 - Axon Server
+- Kotlin
 - PostgreSQL
 - H2
 - Spring Boot
