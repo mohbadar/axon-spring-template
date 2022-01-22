@@ -2,8 +2,10 @@ package com.unite.axon_spring;
 
 import com.unite.axon_spring.iam.commandmodel.aggregate.EnvironmentAggregate;
 import com.unite.axon_spring.iam.commandmodel.aggregate.RoleAggregate;
-import com.unite.axon_spring.iam.coreapi.command.*;
-import com.unite.axon_spring.iam.coreapi.event.*;
+import com.unite.axon_spring.iam.coreapi.CreateEnvironmentCommand;
+import com.unite.axon_spring.iam.coreapi.EnvironmentCreatedEvent;
+import com.unite.axon_spring.iam.coreapi.EnvironmentUpdatedEvent;
+import com.unite.axon_spring.iam.coreapi.UpdateEnvironmentCommand;
 import org.axonframework.test.aggregate.AggregateTestFixture;
 import org.axonframework.test.aggregate.FixtureConfiguration;
 import org.junit.jupiter.api.*;

@@ -1,12 +1,8 @@
 package com.unite.axon_spring.iam.restapi;
 
 import com.unite.axon_spring.iam.common.audit.Auditable;
-import com.unite.axon_spring.iam.coreapi.command.CreateEnvironmentCommand;
-import com.unite.axon_spring.iam.coreapi.command.DeactivateEnvironmentCommand;
-import com.unite.axon_spring.iam.coreapi.command.UpdateEnvironmentCommand;
 import com.unite.axon_spring.iam.common.dto.EnvironmentDTO;
-import com.unite.axon_spring.iam.coreapi.query.GetEnvironmentQuery;
-import com.unite.axon_spring.iam.coreapi.query.GetEnvironmentsQuery;
+import com.unite.axon_spring.iam.coreapi.*;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;

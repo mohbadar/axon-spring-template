@@ -1,15 +1,13 @@
 package com.unite.axon_spring.iam.eventhadler.projection;
 
 import com.unite.axon_spring.iam.common.dto.GroupFullViewDTO;
-import com.unite.axon_spring.iam.coreapi.event.*;
+import com.unite.axon_spring.iam.coreapi.*;
 import com.unite.axon_spring.iam.common.exception.EnvironmentNotExistException;
 import com.unite.axon_spring.iam.common.exception.GroupNotExistException;
 import com.unite.axon_spring.iam.common.mapper.ObjectDtoMapper;
 import com.unite.axon_spring.iam.commandmodel.model.Environment;
 import com.unite.axon_spring.iam.commandmodel.model.Group;
 import com.unite.axon_spring.iam.commandmodel.model.Role;
-import com.unite.axon_spring.iam.coreapi.query.GetGroupQuery;
-import com.unite.axon_spring.iam.coreapi.query.GetGroupsQuery;
 import com.unite.axon_spring.iam.eventhadler.repository.EnvironmentRepository;
 import com.unite.axon_spring.iam.eventhadler.repository.GroupRepository;
 import com.unite.axon_spring.iam.eventhadler.repository.PermissionRepository;
@@ -52,7 +50,7 @@ public class GroupProjection {
         group.setName(event.getName());
         group.setDescription(event.getDescription());
         group.setEnvSlug(event.getEnvSlug());
-        group.setActive(event.isActive());
+        group.setActive(event.getActive());
         group.setRoles(roles);
 
         groupRepository.save(group);
@@ -76,7 +74,7 @@ public class GroupProjection {
         group.setName(event.getName());
         group.setDescription(event.getDescription());
         group.setEnvSlug(event.getEnvSlug());
-        group.setActive(event.isActive());
+        group.setActive(event.getActive());
         group.setRoles(roles);
 
         groupRepository.save(group);

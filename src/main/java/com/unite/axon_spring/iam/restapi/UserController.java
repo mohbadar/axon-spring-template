@@ -1,10 +1,9 @@
 package com.unite.axon_spring.iam.restapi;
 
 import com.unite.axon_spring.iam.common.audit.Auditable;
-import com.unite.axon_spring.iam.coreapi.command.*;
+import com.unite.axon_spring.iam.coreapi.*;
 import com.unite.axon_spring.iam.common.dto.UserDTO;
 import com.unite.axon_spring.iam.common.dto.UserFullViewDTO;
-import com.unite.axon_spring.iam.coreapi.query.*;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;

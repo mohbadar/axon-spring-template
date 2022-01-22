@@ -1,16 +1,13 @@
 package com.unite.axon_spring.iam.eventhadler.projection;
 
 import com.unite.axon_spring.iam.common.dto.UserFullViewDTO;
-import com.unite.axon_spring.iam.coreapi.event.UserCreatedEvent;
-import com.unite.axon_spring.iam.coreapi.event.UserDeactivatedEvent;
-import com.unite.axon_spring.iam.coreapi.event.UserUpdatedEvent;
 import com.unite.axon_spring.iam.common.exception.RoleNotExistException;
 import com.unite.axon_spring.iam.common.exception.UserNotExistException;
 import com.unite.axon_spring.iam.common.mapper.ObjectDtoMapper;
 import com.unite.axon_spring.iam.commandmodel.model.Environment;
 import com.unite.axon_spring.iam.commandmodel.model.Group;
 import com.unite.axon_spring.iam.commandmodel.model.User;
-import com.unite.axon_spring.iam.coreapi.query.*;
+import com.unite.axon_spring.iam.coreapi.*;
 import com.unite.axon_spring.iam.eventhadler.repository.EnvironmentRepository;
 import com.unite.axon_spring.iam.eventhadler.repository.GroupRepository;
 import com.unite.axon_spring.iam.eventhadler.repository.UserRepository;
@@ -46,7 +43,7 @@ public class UserProjection {
         user.setId(event.getId());
         user.setName(event.getName());
         user.setAddress(event.getAddress());
-        user.setActive(event.isActive());
+        user.setActive(event.getActive());
         user.setPhoneNo(event.getPhoneNo());
         user.setUsername(event.getUsername());
 
@@ -76,7 +73,7 @@ public class UserProjection {
         user.setId(event.getId());
         user.setName(event.getName());
         user.setAddress(event.getAddress());
-        user.setActive(event.isActive());
+        user.setActive(event.getActive());
         user.setPhoneNo(event.getPhoneNo());
         user.setUsername(event.getUsername());
 

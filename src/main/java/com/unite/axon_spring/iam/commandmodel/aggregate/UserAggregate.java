@@ -1,11 +1,6 @@
 package com.unite.axon_spring.iam.commandmodel.aggregate;
 
-import com.unite.axon_spring.iam.coreapi.command.CreateUserCommand;
-import com.unite.axon_spring.iam.coreapi.command.DeactivateUserCommand;
-import com.unite.axon_spring.iam.coreapi.command.UpdateUserCommand;
-import com.unite.axon_spring.iam.coreapi.event.UserCreatedEvent;
-import com.unite.axon_spring.iam.coreapi.event.UserDeactivatedEvent;
-import com.unite.axon_spring.iam.coreapi.event.UserUpdatedEvent;
+import com.unite.axon_spring.iam.coreapi.*;
 import lombok.NoArgsConstructor;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -39,7 +34,7 @@ public class UserAggregate {
                 cmd.getId(),
                 cmd.getName(),
                 cmd.getAddress(),
-                cmd.isActive(),
+                cmd.getActive(),
                 cmd.getPhoneNo(),
                 cmd.getUsername(),
                 cmd.getPassword(),
@@ -57,7 +52,7 @@ public class UserAggregate {
                 cmd.getId(),
                 cmd.getName(),
                 cmd.getAddress(),
-                cmd.isActive(),
+                cmd.getActive(),
                 cmd.getPhoneNo(),
                 cmd.getUsername(),
                 cmd.getPassword(),
@@ -82,7 +77,7 @@ public class UserAggregate {
         this.id = event.getId();
         this.name = event.getName();
         this.address = event.getAddress();
-        this.active = event.isActive();
+        this.active = event.getActive();
         this.phoneNo = event.getPhoneNo();
         this.username = event.getUsername();
         this.password = event.getPassword();
@@ -96,7 +91,7 @@ public class UserAggregate {
     {
         this.name = event.getName();
         this.address = event.getAddress();
-        this.active = event.isActive();
+        this.active = event.getActive();
         this.phoneNo = event.getPhoneNo();
         this.username = event.getUsername();
         this.password = event.getPassword();

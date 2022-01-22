@@ -1,12 +1,10 @@
 package com.unite.axon_spring.iam.restapi;
 
 import com.unite.axon_spring.iam.common.audit.Auditable;
-import com.unite.axon_spring.iam.coreapi.command.*;
+import com.unite.axon_spring.iam.coreapi.*;
 import com.unite.axon_spring.iam.restapi.resource.RoleVO;
 import com.unite.axon_spring.iam.restapi.resource.RolesListVO;
 import com.unite.axon_spring.iam.commandmodel.model.Permission;
-import com.unite.axon_spring.iam.coreapi.query.GetRoleQuery;
-import com.unite.axon_spring.iam.coreapi.query.GetRolesQuery;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;

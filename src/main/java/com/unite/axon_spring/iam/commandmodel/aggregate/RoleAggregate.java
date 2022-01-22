@@ -1,11 +1,7 @@
 package com.unite.axon_spring.iam.commandmodel.aggregate;
 
-import com.unite.axon_spring.iam.coreapi.command.CreateRoleCommand;
-import com.unite.axon_spring.iam.coreapi.command.DeactivateRoleCommand;
-import com.unite.axon_spring.iam.coreapi.command.UpdateRoleCommand;
-import com.unite.axon_spring.iam.coreapi.event.RoleCreatedEvent;
-import com.unite.axon_spring.iam.coreapi.event.RoleDeactivatedEvent;
-import com.unite.axon_spring.iam.coreapi.event.RoleUpdatedEvent;
+
+import com.unite.axon_spring.iam.coreapi.*;
 import lombok.NoArgsConstructor;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -34,7 +30,7 @@ public class RoleAggregate {
                 cmd.getId(),
                 cmd.getName(),
                 cmd.getDescription(),
-                cmd.isActive(),
+                cmd.getActive(),
                 cmd.getEnvSlug(),
                 cmd.getPermissionIds()
         ));
@@ -46,7 +42,7 @@ public class RoleAggregate {
                 cmd.getId(),
                 cmd.getName(),
                 cmd.getDescription(),
-                cmd.isActive(),
+                cmd.getActive(),
                 cmd.getEnvSlug(),
                 cmd.getPermissionIds()
         ));
@@ -66,7 +62,7 @@ public class RoleAggregate {
         this.id=event.getId();
         this.name=event.getName();
         this.description=event.getDescription();
-        this.active=event.isActive();
+        this.active=event.getActive();
         this.envSlug=event.getEnvSlug();
         this.permissionIds=event.getPermissionIds();
     }
@@ -76,7 +72,7 @@ public class RoleAggregate {
     {
         this.name=event.getName();
         this.description=event.getDescription();
-        this.active=event.isActive();
+        this.active=event.getActive();
         this.envSlug=event.getEnvSlug();
         this.permissionIds=event.getPermissionIds();
     }

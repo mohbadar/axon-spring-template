@@ -2,8 +2,8 @@ package com.unite.axon_spring.iam.restapi;
 
 import com.unite.axon_spring.iam.common.audit.Auditable;
 import com.unite.axon_spring.iam.commandmodel.model.Permission;
-import com.unite.axon_spring.iam.coreapi.query.GetPermissionQuery;
-import com.unite.axon_spring.iam.coreapi.query.GetPermissionsQuery;
+import com.unite.axon_spring.iam.coreapi.GetPermissionQuery;
+import com.unite.axon_spring.iam.coreapi.GetPermissionsQuery;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.beans.factory.annotation.Autowired;

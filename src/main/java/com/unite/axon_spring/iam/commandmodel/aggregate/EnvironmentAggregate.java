@@ -1,11 +1,6 @@
 package com.unite.axon_spring.iam.commandmodel.aggregate;
 
-import com.unite.axon_spring.iam.coreapi.command.CreateEnvironmentCommand;
-import com.unite.axon_spring.iam.coreapi.command.DeactivateEnvironmentCommand;
-import com.unite.axon_spring.iam.coreapi.command.UpdateEnvironmentCommand;
-import com.unite.axon_spring.iam.coreapi.event.EnvironmentCreatedEvent;
-import com.unite.axon_spring.iam.coreapi.event.EnvironmentDeactivatedEvent;
-import com.unite.axon_spring.iam.coreapi.event.EnvironmentUpdatedEvent;
+import com.unite.axon_spring.iam.coreapi.*;
 import lombok.NoArgsConstructor;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -34,7 +29,7 @@ public class EnvironmentAggregate {
                 cmd.getName(),
                 cmd.getDescription(),
                 cmd.getSecretKey(),
-                cmd.isActive()
+                cmd.getActive()
         ));
     }
 
@@ -47,7 +42,7 @@ public class EnvironmentAggregate {
                 cmd.getName(),
                 cmd.getDescription(),
                 cmd.getSecretKey(),
-                cmd.isActive()
+                cmd.getActive()
         ));
     }
 
@@ -68,7 +63,7 @@ public class EnvironmentAggregate {
         this.name=event.getName();
         this.description=event.getSecretKey();
         this.secretKey=event.getSecretKey();
-        this.active=event.isActive();
+        this.active=event.getActive();
     }
 
     @EventSourcingHandler
@@ -78,7 +73,7 @@ public class EnvironmentAggregate {
         this.name=event.getName();
         this.description=event.getSecretKey();
         this.secretKey=event.getSecretKey();
-        this.active=event.isActive();
+        this.active=event.getActive();
     }
 
     @EventSourcingHandler

@@ -1,7 +1,6 @@
 package com.unite.axon_spring.iam.commandmodel.aggregate;
 
-import com.unite.axon_spring.iam.coreapi.command.*;
-import com.unite.axon_spring.iam.coreapi.event.*;
+import com.unite.axon_spring.iam.coreapi.*;
 import lombok.NoArgsConstructor;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -30,7 +29,7 @@ public class GroupAggregate {
                 cmd.getId(),
                 cmd.getName(),
                 cmd.getDescription(),
-                cmd.isActive(),
+                cmd.getActive(),
                 cmd.getEnvSlug(),
                 cmd.getRoleIds()
         ));
@@ -42,7 +41,7 @@ public class GroupAggregate {
                 cmd.getId(),
                 cmd.getName(),
                 cmd.getDescription(),
-                cmd.isActive(),
+                cmd.getActive(),
                 cmd.getEnvSlug(),
                 cmd.getRoleIds()
         ));
@@ -62,7 +61,7 @@ public class GroupAggregate {
         this.id=event.getId();
         this.name=event.getName();
         this.description=event.getDescription();
-        this.active=event.isActive();
+        this.active=event.getActive();
         this.envSlug=event.getEnvSlug();
         this.roleIds=event.getRoleIds();
     }
@@ -72,7 +71,7 @@ public class GroupAggregate {
     {
         this.name=event.getName();
         this.description=event.getDescription();
-        this.active=event.isActive();
+        this.active=event.getActive();
         this.envSlug=event.getEnvSlug();
         this.roleIds=event.getRoleIds();
     }

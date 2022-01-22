@@ -1,17 +1,13 @@
 package com.unite.axon_spring.iam.eventhadler.projection;
 
+import com.unite.axon_spring.iam.coreapi.*;
 import com.unite.axon_spring.iam.restapi.resource.RoleVO;
-import com.unite.axon_spring.iam.coreapi.event.RoleCreatedEvent;
-import com.unite.axon_spring.iam.coreapi.event.RoleDeactivatedEvent;
-import com.unite.axon_spring.iam.coreapi.event.RoleUpdatedEvent;
 import com.unite.axon_spring.iam.common.exception.EnvironmentNotExistException;
 import com.unite.axon_spring.iam.common.exception.RoleNotExistException;
 import com.unite.axon_spring.iam.common.mapper.ObjectDtoMapper;
 import com.unite.axon_spring.iam.commandmodel.model.Environment;
 import com.unite.axon_spring.iam.commandmodel.model.Permission;
 import com.unite.axon_spring.iam.commandmodel.model.Role;
-import com.unite.axon_spring.iam.coreapi.query.GetRoleQuery;
-import com.unite.axon_spring.iam.coreapi.query.GetRolesQuery;
 import com.unite.axon_spring.iam.eventhadler.repository.EnvironmentRepository;
 import com.unite.axon_spring.iam.eventhadler.repository.PermissionRepository;
 import com.unite.axon_spring.iam.eventhadler.repository.RoleRepository;
@@ -48,7 +44,7 @@ public class RoleProjection {
         role.setName(event.getName());
         role.setDescription(event.getDescription());
         role.setEnvSlug(event.getEnvSlug());
-        role.setActive(event.isActive());
+        role.setActive(event.getActive());
         role.setPermissions(permissions);
 
         roleRepository.save(role);
@@ -73,7 +69,7 @@ public class RoleProjection {
         role.setName(event.getName());
         role.setDescription(event.getDescription());
         role.setEnvSlug(event.getEnvSlug());
-        role.setActive(event.isActive());
+        role.setActive(event.getActive());
         role.setPermissions(permissions);
 
         roleRepository.save(role);

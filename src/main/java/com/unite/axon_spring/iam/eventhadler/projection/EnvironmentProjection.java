@@ -1,14 +1,11 @@
 package com.unite.axon_spring.iam.eventhadler.projection;
 
 import com.unite.axon_spring.iam.common.dto.EnvironmentDTO;
-import com.unite.axon_spring.iam.coreapi.event.EnvironmentCreatedEvent;
-import com.unite.axon_spring.iam.coreapi.event.EnvironmentDeactivatedEvent;
-import com.unite.axon_spring.iam.coreapi.event.EnvironmentUpdatedEvent;
+
 import com.unite.axon_spring.iam.common.exception.EnvironmentNotExistException;
 import com.unite.axon_spring.iam.common.mapper.ObjectDtoMapper;
 import com.unite.axon_spring.iam.commandmodel.model.Environment;
-import com.unite.axon_spring.iam.coreapi.query.GetEnvironmentQuery;
-import com.unite.axon_spring.iam.coreapi.query.GetEnvironmentsQuery;
+import com.unite.axon_spring.iam.coreapi.*;
 import com.unite.axon_spring.iam.eventhadler.repository.EnvironmentRepository;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
@@ -38,7 +35,7 @@ public class EnvironmentProjection {
         environment.setName(event.getName());
         environment.setDescription(event.getDescription());
         environment.setSecretKey(event.getSecretKey());
-        environment.setActive(event.isActive());
+        environment.setActive(event.getActive());
         environmentRepository.save(environment);
     }
 
@@ -51,7 +48,7 @@ public class EnvironmentProjection {
         environment.setName(event.getName());
         environment.setDescription(event.getDescription());
         environment.setSecretKey(event.getSecretKey());
-        environment.setActive(event.isActive());
+        environment.setActive(event.getActive());
         environmentRepository.save(environment);
     }
 
